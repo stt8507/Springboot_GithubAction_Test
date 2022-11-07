@@ -39,7 +39,7 @@ jobs:
             
             
   deploy:
-    runs-on: self-hosted
+    runs-on: instance-20220922-2129
     needs: runs-sample
     steps:
       - name: Get the artifact

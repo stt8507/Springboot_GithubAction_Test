@@ -46,5 +46,3 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: Springboot_GithubAction_Test
-      - name: Deploy
-        run: java -jar Springboot_GithubAction_Test-Sa.jar

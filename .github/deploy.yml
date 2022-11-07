@@ -1,0 +1,51 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+
+  jobs:
+    runs-sample:
+      runs-on: self-hosted
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          
+        - name: Setup Java
+          uses: actions/setup-java@v3
+          with: 
+            java-version: 8
+            disturbution: 'adopt'
+            
+        - name: Setup Maven
+          uses: stCarolas/setup-maven@v4.4
+          with:
+            maven-version: 3.8.2
+            
+        - name: Unit Test
+          run: mvn clean package
+          
+        - name: Rename the artifact
+          run: cp target/Springboot_GithubAction_Test-0.0.1-SNAPSHOT.jar Springboot_GithubAction_Test-{{ github.sha }}.jar
+          
+        - name: Save the artifact
+          uses: actions/upload-artifact@master
+          with:
+            name: Springboot_GithubAction_Test
+            path: Springboot_GithubAction_Test-{{ github.sha }}.jar
+            
+            
+    deploy:
+      runs-on: self-hosted
+      needs: runs-sample
+      steps:
+        - name: Get the artifact
+          uses: actions/download-artifact@master
+          with:
+            name: Springboot_GithubAction_Test
+
+      - name: Deploy
+        run: java -jar Springboot_GithubAction_Test-{{ github.sha }}.jar

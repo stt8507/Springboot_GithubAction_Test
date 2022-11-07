@@ -29,13 +29,13 @@ jobs:
         run: mvn clean package
           
       - name: Rename the artifact
-        run: cp target/Springboot_GithubAction_Test-0.0.1-SNAPSHOT.jar Springboot_GithubAction_Test-{{ github.sha }}.jar
+        run: cp target/Springboot_GithubAction_Test-0.0.1-SNAPSHOT.jar Springboot_GithubAction_Test-Sa.jar
           
       - name: Save the artifact
         uses: actions/upload-artifact@master
         with:
           name: Springboot_GithubAction_Test
-          path: Springboot_GithubAction_Test-{{ github.sha }}.jar
+          path: Springboot_GithubAction_Test-Sa.jar
             
             
   deploy:
@@ -47,4 +47,4 @@ jobs:
         with:
           name: Springboot_GithubAction_Test
       - name: Deploy
-        run: java -jar Springboot_GithubAction_Test-{{ github.sha }}.jar
+        run: java -jar Springboot_GithubAction_Test-Sa.jar
